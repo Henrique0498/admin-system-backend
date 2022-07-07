@@ -12,6 +12,10 @@ export class UserService {
     this.create(createUserDto);
   }
 
+  async getUser(username: string): Promise<User | null> {
+    return await this.users.find((user) => user.username === username);
+  }
+
   private create(userProps: CreateUserDto): void {
     const { name, username, email } = userProps;
 

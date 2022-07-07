@@ -6,6 +6,6 @@ export class UserController {
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
     const { email } = createUserDto;
-    return JSON.stringify({ email });
+    return JSON.stringify(`{ "email": ${email} }`);
   }
 }

@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
 import { User } from './interfaces/user.interface';
@@ -14,7 +21,19 @@ export class UserController {
   }
 
   @Get()
-  async getUser(@Body() getUserDto: GetUserDto): Promise<User> {
-    return this.userService.getUser(getUserDto.username);
+  async getUser(@Body() { username }: GetUserDto): Promise<User> {
+    const resultGetUser = await this.userService.getUser(username);
+
+    if (resultGetUser) {
+      return resultGetUser;
+    }
+
+    throw new HttpException(
+      {
+        status: HttpStatus.NOT_FOUND,
+        error: 'Este usuário não existe.',
+      },
+      HttpStatus.NOT_FOUND,
+    );
   }
 }

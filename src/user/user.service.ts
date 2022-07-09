@@ -1,11 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
 import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class UserService {
-  private readonly logger = new Logger(UserService.name);
   private users: User[] = [];
 
   async createUser(createUserDto: CreateUserDto): Promise<void> {
@@ -13,7 +12,7 @@ export class UserService {
   }
 
   async getUser(username: string): Promise<User | null> {
-    return await this.users.find((user) => user.username === username);
+    return this.users.find((user) => user.username === username);
   }
 
   private create(userProps: CreateUserDto): void {
@@ -34,7 +33,6 @@ export class UserService {
       spendingTotal: null,
     };
 
-    this.logger.log(`createUserDto: ${JSON.stringify(user)}`);
     this.users.push(user);
   }
 }

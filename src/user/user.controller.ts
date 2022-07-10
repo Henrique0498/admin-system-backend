@@ -7,6 +7,8 @@ import {
   HttpStatus,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
@@ -19,6 +21,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @UsePipes(ValidationPipe)
   async createUser(@Body() createUserDto: CreateUserDto) {
     await this.userService.createUser(createUserDto);
   }

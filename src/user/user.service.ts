@@ -4,6 +4,8 @@ import { User } from './interfaces/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+type DeleteOneResultType = { acknowledged: boolean; deletedCount: number };
+
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly UserModel: Model<User>) {}
@@ -40,8 +42,8 @@ export class UserService {
     ).exec();
   }
 
-  async deleteUser(username: string): Promise<void> {
-    return await this.UserModel.remove({ username }).exec();
+  async deleteUser(username: string): Promise<DeleteOneResultType> {
+    return await this.UserModel.deleteOne({ username }).exec();
   }
 
   private async create(createUserDto: CreateUserDto): Promise<User> {

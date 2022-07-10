@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -44,5 +45,20 @@ export class UserController {
       },
       HttpStatus.BAD_REQUEST,
     );
+  }
+
+  @Delete()
+  async deleteUser(@Body() getUserDto: UpdateUserDto): Promise<void> {
+    if (getUserDto.username) {
+      await this.userService.deleteUser(getUserDto.username);
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Este usuário não existe.',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

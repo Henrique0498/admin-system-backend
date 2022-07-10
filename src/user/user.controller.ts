@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Patch,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './interfaces/user.interface';
+import { UserValidateParamsPipes } from './pipes/user-validate-params.pipes';
 import { UserService } from './user.service';
 
 @Controller('api/v1/user')
@@ -51,17 +53,9 @@ export class UserController {
   }
 
   @Delete()
-  async deleteUser(@Body() getUserDto: UpdateUserDto): Promise<void> {
-    if (getUserDto.username) {
-      await this.userService.deleteUser(getUserDto.username);
-    } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: 'Este usuário não existe.',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+  async deleteUser(
+    @Query('username', UserValidateParamsPipes) username: string,
+  ): Promise<void> {
+    await this.userService.deleteUser(username);
   }
 }

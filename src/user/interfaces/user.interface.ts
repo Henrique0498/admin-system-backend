@@ -1,14 +1,12 @@
-export interface User {
-  readonly _id: string;
-  readonly email: string;
-  readonly name: string;
-  readonly username: string;
-  lastAccess: string | null;
-  expensesTotal: string | null;
-  spendingTotal: string | null;
-  expenses: [] | null;
-  spending: [] | null;
-  cards: [] | null;
-  earnings: [] | null;
-  income: [] | null;
+import { Document } from 'mongoose';
+
+export interface User extends Document {
+  email: string;
+  username: string;
+  userForeignKey: string;
+  userPhoto: string;
+  cardPhoto: string;
+  name: string;
+  gender: string;
+  numberPhone: string;
 }

@@ -4,10 +4,12 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './interfaces/user.interface';
 import { UserService } from './user.service';
 
@@ -27,13 +29,20 @@ export class UserController {
     if (resultGetUser) {
       return resultGetUser;
     }
+  }
+
+  @Patch()
+  async updateUser(@Body() getUserDto: UpdateUserDto): Promise<User> {
+    if (getUserDto.username) {
+      return await this.userService.updateUser(getUserDto);
+    }
 
     throw new HttpException(
       {
-        status: HttpStatus.NOT_FOUND,
+        status: HttpStatus.BAD_REQUEST,
         error: 'Este usuário não existe.',
       },
-      HttpStatus.NOT_FOUND,
+      HttpStatus.BAD_REQUEST,
     );
   }
 }

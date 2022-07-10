@@ -1,38 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
-import { v4 as uuid } from 'uuid';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
-  private users: User[] = [];
+  constructor(@InjectModel('User') private readonly UserModel: Model<User>) {}
+
+  async getUser(username: string): Promise<User | null> {
+    const resultQuery = await this.UserModel.findOne({ username }).exec();
+
+    if (!resultQuery) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Este usuário não existe.',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return resultQuery;
+  }
 
   async createUser(createUserDto: CreateUserDto): Promise<void> {
     this.create(createUserDto);
   }
 
-  async getUser(username: string): Promise<User | null> {
-    return this.users.find((user) => user.username === username);
-  }
-
-  private create(userProps: CreateUserDto): void {
-    const { name, username, email } = userProps;
-
-    const user: User = {
-      _id: uuid(),
-      name,
-      email,
-      username,
-      cards: null,
-      earnings: null,
-      expenses: null,
-      expensesTotal: null,
-      income: null,
-      lastAccess: null,
-      spending: null,
-      spendingTotal: null,
+  async updateUser(updateUserDto: CreateUserDto): Promise<User> {
+    const parameterUpdate = { username: updateUserDto.username };
+    const valueUpdate = {
+      $set: updateUserDto,
     };
 
-    this.users.push(user);
+    return await this.UserModel.findOneAndUpdate(
+      parameterUpdate,
+      valueUpdate,
+    ).exec();
+  }
+
+  async deleteUser(username: string): Promise<void> {
+    return await this.UserModel.remove({ username }).exec();
+  }
+
+  private async create(createUserDto: CreateUserDto): Promise<User> {
+    const userCreate = new this.UserModel(createUserDto);
+
+    return await userCreate.save();
   }
 }

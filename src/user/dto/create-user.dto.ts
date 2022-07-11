@@ -13,6 +13,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly name: string;
 
+  @IsNotEmpty()
+  readonly password: string;
+
   readonly userForeignKey: string;
   readonly userPhoto: string;
   readonly cardPhoto: string;

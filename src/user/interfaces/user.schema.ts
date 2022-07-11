@@ -5,6 +5,7 @@ export const UserSchema = new mongoose.Schema(
     email: { type: String, unique: true },
     username: { type: String, unique: true },
     userForeignKey: { type: String, unique: true },
+    password: { type: String },
     userPhoto: { type: String },
     cardPhoto: { type: String },
     phoneNumber: { type: String },

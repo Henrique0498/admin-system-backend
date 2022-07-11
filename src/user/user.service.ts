@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 type DeleteOneResultType = { acknowledged: boolean; deletedCount: number };
 
@@ -30,7 +31,7 @@ export class UserService {
     this.create(createUserDto);
   }
 
-  async updateUser(updateUserDto: CreateUserDto): Promise<User> {
+  async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
     const parameterUpdate = { username: updateUserDto.username };
     const valueUpdate = {
       $set: updateUserDto,

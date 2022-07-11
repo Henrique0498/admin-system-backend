@@ -11,6 +11,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { hash } from 'bcryptjs';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -25,7 +26,9 @@ export class UserController {
   @Post()
   @UsePipes(ValidationPipe)
   async createUser(@Body() createUserDto: CreateUserDto) {
-    await this.userService.createUser(createUserDto);
+    const password = await hash(createUserDto.password, 8);
+
+    await this.userService.createUser({ ...createUserDto, password });
   }
 
   @Get()

@@ -5,7 +5,7 @@ import {
   HttpStatus,
   Post,
 } from '@nestjs/common';
-import { compare, hash } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { UserService } from 'src/user/user.service';
 import { AuthenticateDto } from './dto/authenticate.dto';

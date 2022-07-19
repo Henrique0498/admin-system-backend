@@ -16,7 +16,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly password: string;
 
-  readonly userForeignKey: string;
   readonly userPhoto: string;
   readonly cardPhoto: string;
   readonly numberPhone: string;

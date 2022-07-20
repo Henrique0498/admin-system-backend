@@ -16,6 +16,12 @@ export class CreateUserDto {
   @IsNotEmpty()
   readonly password: string;
 
+  @IsNotEmpty()
+  readonly passwordConfirm: string;
+
+  @IsNotEmpty()
+  readonly birthDate: Date;
+
   readonly userPhoto: string;
   readonly cardPhoto: string;
   readonly numberPhone: string;

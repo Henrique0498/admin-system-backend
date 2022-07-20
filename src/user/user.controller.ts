@@ -26,6 +26,18 @@ export class UserController {
   @Post()
   @UsePipes(ValidationPipe)
   async createUser(@Body() createUserDto: CreateUserDto) {
+    const getUsername = await this.userService.getUser(createUserDto.username);
+
+    if (createUserDto.password !== createUserDto.passwordConfirm) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: 'As senhas não se coincidem.',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
     const password = await hash(createUserDto.password, 8);
 
     await this.userService.createUser({ ...createUserDto, password });

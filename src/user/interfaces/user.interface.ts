@@ -9,4 +9,5 @@ export interface User extends Document {
   name: string;
   gender: string;
   numberPhone: string;
+  birthDate: string;
 }

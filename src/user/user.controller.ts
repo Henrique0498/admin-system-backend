@@ -38,6 +38,16 @@ export class UserController {
       );
     }
 
+    if (getUsername) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: 'Já existe um usuário com esse username.',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
     const password = await hash(createUserDto.password, 8);
 
     await this.userService.createUser({ ...createUserDto, password });

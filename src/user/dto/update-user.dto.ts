@@ -5,5 +5,4 @@ export interface UpdateUserDto {
   cardPhoto: string;
   name: string;
   gender: string;
-  numberPhone: string;
 }

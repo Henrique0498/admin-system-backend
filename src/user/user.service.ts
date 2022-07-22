@@ -14,15 +14,15 @@ export class UserService {
   async getUser(username: string): Promise<User | null> {
     const resultQuery = await this.UserModel.findOne({ username }).exec();
 
-    if (!resultQuery) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: 'Este usuário não existe.',
-        },
-        HttpStatus.NOT_FOUND,
-      );
-    }
+    // if (!resultQuery) {
+    //   throw new HttpException(
+    //     {
+    //       status: HttpStatus.NOT_FOUND,
+    //       error: 'Este usuário não existe.',
+    //     },
+    //     HttpStatus.NOT_FOUND,
+    //   );
+    // }
 
     return resultQuery;
   }

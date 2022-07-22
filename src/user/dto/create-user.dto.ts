@@ -24,5 +24,4 @@ export class CreateUserDto {
 
   readonly userPhoto: string;
   readonly cardPhoto: string;
-  readonly numberPhone: string;
 }
